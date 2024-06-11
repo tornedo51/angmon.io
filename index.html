@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تقديم في الإدارة</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            direction: rtl;
+            text-align: right;
+        }
+        form {
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 1em;
+            border: 1px solid #ccc;
+            border-radius: 1em;
+        }
+        div + div {
+            margin-top: 1em;
+        }
+        label {
+            display: block;
+            margin-bottom: 0.5em;
+        }
+        input, textarea {
+            border: 1px solid #ccc;
+            padding: 0.5em;
+            font-size: 1em;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        button {
+            padding: 0.7em;
+            color: #fff;
+            background-color: #007BFF;
+            border: none;
+            border-radius: 0.3em;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <form id="applicationForm">
+        <h1>تقديم في الإدارة</h1>
+        <div>
+            <label for="name">الاسم:</label>
+            <input type="text" id="name" name="name" required>
+        </div>
+        <div>
+            <label for="age">العمر:</label>
+            <input type="number" id="age" name="age" required>
+        </div>
+        <div>
+            <label for="instagram">اسم المستخدم في إنستقرام:</label>
+            <input type="text" id="instagram" name="instagram" required>
+        </div>
+        <div>
+            <label for="email">البريد الإلكتروني:</label>
+            <input type="email" id="email" name="email" required>
+        </div>
+        <div>
+            <label for="reason">سبب التقديم:</label>
+            <textarea id="reason" name="reason" required></textarea>
+        </div>
+        <div>
+            <button type="submit">إرسال</button>
+        </div>
+    </form>
+
+    <script>
+        document.getElementById('applicationForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+
+            const name = document.getElementById('name').value;
+            const age = document.getElementById('age').value;
+            const instagram = document.getElementById('instagram').value;
+            const email = document.getElementById('email').value;
+            const reason = document.getElementById('reason').value;
+
+            const payload = {
+                content: `طلب جديد:\n\n**الاسم:** ${name}\n**العمر:** ${age}\n**اسم المستخدم في إنستقرام:** ${instagram}\n**البريد الإلكتروني:** ${email}\n**سبب التقديم:** ${reason}`
+            };
+
+            const webhookUrl = 'https://discord.com/api/webhooks/1250220388047261859/m7hKCplQ4j68Gd7qCnG2kwRdJB2YHOM8BPCdd5AD_ppXdQ1rghW16FHjh-7hXWyfM9zK';
+
+            try {
+                const response = await fetch(webhookUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(payload)
+                });
+
+                if (response.ok) {
+                    alert('تم إرسال طلبك بنجاح!');
+                } else {
+                    alert('حدث خطأ أثناء إرسال طلبك.');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('حدث خطأ أثناء إرسال طلبك.');
+            }
+        });
+    </script>
+</body>
+</html>
